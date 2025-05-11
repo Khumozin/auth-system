@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { compare, hash } from 'bcrypt';
@@ -88,6 +88,7 @@ export class AuthService {
 
       return user;
     } catch (error) {
+      Logger.error(error);
       throw new UnauthorizedException('Invalid email or password!');
     }
   }
@@ -105,6 +106,7 @@ export class AuthService {
       }
       return user;
     } catch (error) {
+      Logger.error(error);
       throw new UnauthorizedException('Refresh token is not valid!');
     }
   }
