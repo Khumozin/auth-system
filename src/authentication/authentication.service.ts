@@ -10,7 +10,7 @@ import { UsersService } from '../users/users.service';
 import { TokenPayload } from './token-payload.interface';
 
 @Injectable()
-export class AuthService {
+export class AuthenticationService {
   constructor(
     private readonly usersService: UsersService,
     private readonly configService: ConfigService,
