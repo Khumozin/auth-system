@@ -1,9 +1,10 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { compare, hash } from 'bcrypt';
 import { Response } from 'express';
 import mongoose from 'mongoose';
+import { RolesService } from 'src/roles/roles.service';
 
 import { User } from '../users/schema/user.schema';
 import { UsersService } from '../users/users.service';
@@ -15,6 +16,7 @@ export class AuthenticationService {
     private readonly usersService: UsersService,
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
+    private readonly rolesService: RolesService,
   ) {}
 
   async login(user: User, response: Response) {
@@ -107,5 +109,17 @@ export class AuthenticationService {
       Logger.error(error);
       throw new UnauthorizedException('Refresh token is not valid!');
     }
+  }
+
+  async getUserPermissions(userId: string) {
+    const user = await this.usersService.getUser({ _id: userId });
+
+    if (!user) throw new BadRequestException();
+
+    const role = await this.rolesService.getRoleById(user.roleId.toString());
+
+    if (!role) throw new BadRequestException();
+
+    return role.permissions;
   }
 }
