@@ -1,13 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
-import { AuthService } from '../auth.service';
+import { AuthenticationService } from '../authentication.service';
 import { TokenPayload } from '../token-payload.interface';
 
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(
   Strategy,
@@ -15,7 +15,7 @@ export class JwtRefreshStrategy extends PassportStrategy(
 ) {
   constructor(
     configService: ConfigService,
-    private readonly authService: AuthService,
+    private readonly authService: AuthenticationService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
