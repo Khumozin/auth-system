@@ -1,11 +1,16 @@
-import { BadRequestException, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { compare, hash } from 'bcrypt';
 import { Response } from 'express';
 import mongoose from 'mongoose';
-import { RolesService } from 'src/roles/roles.service';
 
+import { RolesService } from '../roles/roles.service';
 import { User } from '../users/schema/user.schema';
 import { UsersService } from '../users/users.service';
 import { TokenPayload } from './token-payload.interface';
